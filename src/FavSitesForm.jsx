@@ -52,25 +52,25 @@ class FavSitesForm extends Component{
         });
     }
     render() {
-        const favSitesFormStyle = {
-            height: 200,
-            width: 400,
-            padding: 50,
-            backgroundColor: '#FFF2CC',
-            boxShadow: '0px 0px 5px #666',
-            fontFamily: 'arial',
-            fontWeight: '5px',
-            color: 'black'
-        }
-        const buttStyle = {
-            backgroundColor: '#4CAF50', /* Green */
-            border: 'none',
-            color: 'white',
-            padding: '10px 15px',
-            textAlign: 'center',
-            textDecoration: 'none',
-            fontSize: '14px'
-        }
+        // const favSitesFormStyle = {
+        //     height: 200,
+        //     width: 400,
+        //     padding: 50,
+        //     backgroundColor: '#FFF2CC',
+        //     boxShadow: '0px 0px 5px #666',
+        //     fontFamily: 'arial',
+        //     fontWeight: '5px',
+        //     color: 'black'
+        // }
+        // const buttStyle = {
+        //     backgroundColor: '#4CAF50', /* Green */
+        //     border: 'none',
+        //     color: 'white',
+        //     padding: '10px 15px',
+        //     textAlign: 'center',
+        //     textDecoration: 'none',
+        //     fontSize: '14px'
+        // }
         if (this.state.showForm){
             return( 
                     <div style={favSitesFormStyle}>

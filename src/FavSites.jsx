@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ICS211 from './ICS211';
+import ICS211 from './Title/ICS211';
 import SITES from './SITES';
 
 class FavSites extends Component {
@@ -28,23 +28,23 @@ class FavSites extends Component {
         });
     }
     render() {
-        let titleStyle = {
-            color: 'red',
-            fontSize: 'small',
-            fontWeight: 'bold',
-            padding: 20
-        }
-        const favSitesStyle = {
-            height: 600,
-            width: 400,
-            padding: 50,
-            backgroundColor: '#FFF2CC',
-            boxShadow: '0px 0px 5px #666'
-        }
-        let siteStyle = {
-            backgroundColor: 'green',
-            fontFamily: 'arial'
-        }
+        // let titleStyle = {
+        //     color: 'red',
+        //     fontSize: 'small',
+        //     fontWeight: 'bold',
+        //     padding: 20
+        // }
+        // const favSitesStyle = {
+        //     height: 600,
+        //     width: 400,
+        //     padding: 50,
+        //     backgroundColor: '#FFF2CC',
+        //     boxShadow: '0px 0px 5px #666'
+        // }
+        // let siteStyle = {
+        //     backgroundColor: 'green',
+        //     fontFamily: 'arial'
+        // }
 
         return (
             <div style={favSitesStyle}>
