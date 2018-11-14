@@ -15,7 +15,7 @@ class FavSites extends Component {
         return response;
     }
     componentDidMount() {
-        fetch('http://localhost:3000/sites')
+        fetch('http://localhost:3004/sites')
         .then(response=> this.handleHTTPErrors(response))
         .then(response=> response.json())
         .then(result=> {
@@ -34,21 +34,21 @@ class FavSites extends Component {
         //     fontWeight: 'bold',
         //     padding: 20
         // }
-        // const favSitesStyle = {
-        //     height: 600,
-        //     width: 400,
-        //     padding: 50,
-        //     backgroundColor: '#FFF2CC',
-        //     boxShadow: '0px 0px 5px #666'
-        // }
-        // let siteStyle = {
-        //     backgroundColor: 'green',
-        //     fontFamily: 'arial'
-        // }
+        const favSitesStyle = {
+            height: 600,
+            width: 400,
+            padding: 50,
+            backgroundColor: '#FFF2CC',
+            boxShadow: '0px 0px 5px #666'
+        }
+        let siteStyle = {
+            backgroundColor: 'green',
+            fontFamily: 'arial'
+        }
 
         return (
             <div style={favSitesStyle}>
-                <div style={titleStyle}>
+                <div>
                     <ICS211 title='Forest Vey Lab 5' subtitle='Web Applications' />
                     
                 </div>

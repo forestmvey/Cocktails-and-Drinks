@@ -1,0 +1,39 @@
+{
+  "sites": [
+    {
+      "id": 1,
+      "name": "google",
+      "link": "https://www.google.ca",
+      "color": "green",
+      "checked": false
+    },
+    {
+      "id": 2,
+      "name": "gmail",
+      "link": "https://www.gmail.com",
+      "color": "green",
+      "checked": false
+    },
+    {
+      "id": 3,
+      "name": "little bobby tables",
+      "link": "https://xkcd.com/327/",
+      "color": "green",
+      "checked": "false"
+    },
+    {
+      "id": 4,
+      "name": "reddit",
+      "link": "https://reddit.com/",
+      "color": "green",
+      "checked": false
+    },
+    {
+      "id": 5,
+      "name": "duck duck go",
+      "link": "https://duckduckgo.com/",
+      "color": "green",
+      "checked": false
+    }
+  ]
+}
