@@ -5,35 +5,35 @@
       "name": "google",
       "link": "https://www.google.ca",
       "color": "green",
-      "checked": false
+      "checked": true
     },
     {
       "id": 2,
       "name": "gmail",
       "link": "https://www.gmail.com",
       "color": "green",
-      "checked": false
+      "checked": true
     },
     {
       "id": 3,
       "name": "little bobby tables",
       "link": "https://xkcd.com/327/",
       "color": "green",
-      "checked": "false"
+      "checked": true
     },
     {
       "id": 4,
       "name": "reddit",
       "link": "https://reddit.com/",
       "color": "green",
-      "checked": false
+      "checked": true
     },
     {
       "id": 5,
       "name": "duck duck go",
       "link": "https://duckduckgo.com/",
       "color": "green",
-      "checked": false
+      "checked": true
     }
   ]
 }
