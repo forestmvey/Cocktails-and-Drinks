@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import FavSitesForm from './FavSitesForm';
+import FavCocktailsForm from './FavCocktailsForm';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<FavSitesForm />, document.getElementById('root'));
+ReactDOM.render(<FavCocktailsForm />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

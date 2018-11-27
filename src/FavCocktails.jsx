@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import TITLE from './Title/ICS211';
-import COCKTAILS from './SITES';
+import TITLE from './Title/TITLE';
+import COCKTAILS from './COCKTAILS';
 
 class FavCocktails extends Component {
     constructor(props) {
         super(props); 
             this.state = {
-                sites: [],
+                cocktails: [],
             };
     }
     handleHTTPErrors(response) {
@@ -49,14 +49,14 @@ class FavCocktails extends Component {
         return (
             <div style={favSitesStyle}>
                 <div>
-                    <TITLE title='Forest Vey Lab 5' subtitle='Web Applications' />
+                    <TITLE title='Forest Vey' subtitle='Web Applications cocktails project' />
                     
                 </div>
                     <div style={siteStyle}>
                         <ol>
                             {
-                                this.state.sites.map(site=>
-                                <COCKTAILS key={site.id} id={site.id} name={site.name} website={site.link} style={site.color} checked={site.checked}>
+                                this.state.sites.map(drinks=>
+                                <COCKTAILS key={drinks.idDrink} id={drinks.idDrink} name={drinks.strDrink} >
                                 </COCKTAILS>
                                 )
                             }
