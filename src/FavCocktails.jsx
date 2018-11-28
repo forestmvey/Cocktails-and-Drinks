@@ -6,7 +6,7 @@ class FavCocktails extends Component {
     constructor(props) {
         super(props); 
             this.state = {
-                cocktails: [],
+                drinks: [],
             };
     }
     handleHTTPErrors(response) {
@@ -15,12 +15,12 @@ class FavCocktails extends Component {
         return response;
     }
     componentDidMount() {
-        fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita')
+        fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin')
         .then(response=> this.handleHTTPErrors(response))
         .then(response=> response.json())
         .then(result=> {
             this.setState({
-                sites: result
+                cocktails: result
             });
         })
         .catch(error=> {
@@ -55,7 +55,7 @@ class FavCocktails extends Component {
                     <div style={siteStyle}>
                         <ol>
                             {
-                                this.state.sites.map(drinks=>
+                                this.state.drinks.map(drinks=>
                                 <COCKTAILS key={drinks.idDrink} id={drinks.idDrink} name={drinks.strDrink} >
                                 </COCKTAILS>
                                 )
