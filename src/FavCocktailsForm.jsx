@@ -7,11 +7,9 @@ class FavCocktailsForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            checkboxGroup: [false, true, false, false, false],
             showForm: true,
-            category: '',
+            drinks: []
         };
-        this.handleChecked = this.handleChecked.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
     }
@@ -48,70 +46,46 @@ class FavCocktailsForm extends Component {
     //     }
     // }
     handleSubmit = () => {
-        this.preventDefault();
-        console.log(this.target.category + " = this.state.category");
-        let search = this.state.category;
-        this.setState({
-            showForm: false
-        });
-        console.log("showform = " + this.state.showForm)
-        fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/search.php?c=${search}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }) // closes fetch call
-            .then(response => this.handleHTTPErrors(response))
-            .then(result => {
-                this.setState({
-                    showForm: false
-                });
-                console.log("this.state.showForm = " + this.state.showForm);
-            })
-            .catch(error => {
-                console.log(error);
-            });
+        // this.preventDefault();
+        // console.log(this.target.category + " = this.state.category");
+        // let search = this.state.category;
+        // this.setState({
+        //     showForm: false
+        // });
+        // fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/search.php?c=${search}`, {
+        //     method: 'PATCH',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // }) // closes fetch call
+        //     .then(response => this.handleHTTPErrors(response))
+        //     .then(result => {
+        //         this.setState({
+        //             showForm: false
+        //         });
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     });
     }
-    cChange = (e) => {
-        e.preventDefault();
-        this.setState({
-            category: e.target.value
-        });
-        console.log("this.state.category= " + e.target.category);
-    };
     cClick = () => {
-        let newCategory = this.target.value;
-        console.log("this.state.categgory = " + this.state.category)
-        this.setState({
-            showForm: false, 
-            category: newCategory 
-        });
-        fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/search.php?c=${this.state.category}}`, {
-            method: 'PATCH',
+        fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Ordinary_Drink`, {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         }) // closes fetch call
             .then(response => this.handleHTTPErrors(response))
+            // .then(result => result.json())
             .then(result => {
+                // console.log(result);
                 this.setState({
                     showForm: false
                 });
-                console.log("this.state.showForm = " + this.state.showForm);
             })
             .catch(error => {
                 console.log(error);
             });
-    };
-    handleChecked(event) {
-        let checkboxes = this.state.checkboxGroup.slice();
-        checkboxes[event.target.value] = event.target.checked;
-        this.setState({
-            category: event.target.value
-        });
-    }
-    handleTab = e => {
-        e.preventDefault();
     };
     render() {
         const buttStyle = {
@@ -147,7 +121,7 @@ class FavCocktailsForm extends Component {
                             <form onSubmit={this.onSubmit}>
                                 <label>
                                     <input type='search' id='cocktailSearch' name='cocktailSearch' aria-label='Search for Cocktail Name'
-                                        onChange={this.cChange} />
+                                        onChange={this.change} />
                                     &nbsp;<br />Drink Name
                         </label>
                                 <br /><br />
@@ -195,7 +169,7 @@ class FavCocktailsForm extends Component {
             <fieldset>
                             <form>
                                 <label>
-                                    <input type='button' id='gin' name='ginButt' value='Gin'
+                                    <input type='button' id='gin' name='ginButt' value={'Gin'}
                                         onClick={this.cClick} />
                                     &nbsp;
                         </label>

@@ -15,25 +15,31 @@ class FavCocktails extends Component {
         return response;
     }
     componentDidMount() {
-        fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin')
-        .then(response=> this.handleHTTPErrors(response))
-        .then(response=> response.json())
-        .then(result=> {
-            this.setState({
-                cocktails: result
+        fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Ordinary_Drink')
+        .then(response => this.handleHTTPErrors(response))    
+        .then(res => res.json())
+            .then(json => {
+                // console.log(json);
+                this.setState({
+                    isLoaded: true,
+                    drinks: json.drinks
+                })
             });
-        })
-        .catch(error=> {
-            console.log(error);
-        });
     }
+    // componentDidMount() {
+    //     fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Ordinary_Drink')
+    //     // .then(response=> this.handleHTTPErrors(response))
+    //     .then(response=> response.json())
+    //     .then(result=> {
+    //         this.setState({
+    //             drinks: result.drinks
+    //         });
+    //     })
+    //     .catch(error=> {
+    //         console.log(error);
+    //     });
+    // }
     render() {
-        // let titleStyle = {
-        //     color: 'red',
-        //     fontSize: 'small',
-        //     fontWeight: 'bold',
-        //     padding: 20
-        // }
         const favSitesStyle = {
             height: 600,
             width: 400,
@@ -53,14 +59,14 @@ class FavCocktails extends Component {
                     
                 </div>
                     <div style={siteStyle}>
-                        <ol>
+                        <ul>
                             {
-                                this.state.drinks.map(drinks=>
-                                <COCKTAILS key={drinks.idDrink} id={drinks.idDrink} name={drinks.strDrink} >
+                                this.state.drinks.map(drink=>
+                                <COCKTAILS key={drink.idDrink} id={drink.idDrink} name={drink.strDrink} >
                                 </COCKTAILS>
                                 )
                             }
-                        </ol>
+                        </ul>
                     </div>
             </div>
 

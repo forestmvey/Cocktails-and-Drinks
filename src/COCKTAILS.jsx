@@ -3,7 +3,7 @@ import React from 'react';
 const COCKTAILS = (props) =>{
         return(
     <p>
-        <li id={props.idDrink}>{props.strDrink}: {props.strInstructionsDE}</li>
+        <li id={props.idDrink}>id : {props.id} name: {props.name} </li>
     </p>
         )}
 
