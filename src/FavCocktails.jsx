@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
 import TITLE from './Title/TITLE';
-import COCKTAILS from './COCKTAILS';
+import DRINK from './DRINK';
 
 class FavCocktails extends Component {
     constructor(props) {
         super(props); 
+        
             this.state = {
                 drinks: [],
             };
+            fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Ordinary_Drink')
+        .then(response => this.handleHTTPErrors(response))    
+        .then(res => res.json())
+            .then(json => {
+                // console.log(json);
+                this.setState({
+                    drinks: json.drinks
+                })
+            });
     }
     handleHTTPErrors(response) {
         if(!response.ok) throw Error(response.status + 
@@ -21,7 +31,6 @@ class FavCocktails extends Component {
             .then(json => {
                 // console.log(json);
                 this.setState({
-                    isLoaded: true,
                     drinks: json.drinks
                 })
             });
@@ -62,8 +71,8 @@ class FavCocktails extends Component {
                         <ul>
                             {
                                 this.state.drinks.map(drink=>
-                                <COCKTAILS key={drink.idDrink} id={drink.idDrink} name={drink.strDrink} >
-                                </COCKTAILS>
+                                <DRINK key={drink.idDrink} id={drink.idDrink} name={drink.strDrink} >
+                                </DRINK>
                                 )
                             }
                         </ul>

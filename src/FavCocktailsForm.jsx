@@ -2,21 +2,77 @@ import React, { Component } from 'react';
 import FavCocktails from './FavCocktails';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css'
+import DRINK from './DRINK';
 
 class FavCocktailsForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             showForm: true,
-            drinks: []
+            drinks: [],
+            categories: [],
+            ingredients: [],
+            randomD: [],
+           search: ''
         };
+        fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic')
+        .then(response => this.handleHTTPErrors(response))    
+        .then(res => res.json())
+            .then(json => {
+                // console.log(json);
+                this.setState({
+                    drinks: json.drinks
+                })
+            });
+        fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list')
+        .then(response => this.handleHTTPErrors(response))    
+        .then(res => res.json())
+            .then(json => {
+                // console.log(json);
+                this.setState({
+                   categories: json.drinks
+                })
+            });
+        fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list')
+        .then(response => this.handleHTTPErrors(response))    
+        .then(res => res.json())
+            .then(json => {
+                // console.log(json);
+                this.setState({
+                    ingredients: json.drinks
+                })
+            });
+            fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/random.php')
+        .then(response => this.handleHTTPErrors(response))    
+        .then(res => res.json())
+            .then(json => {
+                // console.log(json);
+                this.setState({
+                    randomD: json.drinks
+                })
+            });
         this.handleSubmit = this.handleSubmit.bind(this);
-
+        this.handleClick = this.handleClick.bind(this);
     }
     handleHTTPErrors(response) {
         if (!response.ok) throw Error(response.status +
             ': ' + response.statusText);
         return response;
+    }
+    // componentDidMount() {
+    //     fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic')
+    //     .then(response => this.handleHTTPErrors(response))    
+    //     .then(res => res.json())
+    //         .then(json => {
+    //             // console.log(json);
+    //             this.setState({
+    //                 drinks: json.drinks,
+    //                 alcTypes: json.drinks
+    //             })
+    //         });
+    // }
+    handleCSearch = (drink) => {
+
     }
     // handleSubmit(event){
     //     event.preventDefault();
@@ -68,20 +124,26 @@ class FavCocktailsForm extends Component {
         //         console.log(error);
         //     });
     }
-    cClick = () => {
-        fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Ordinary_Drink`, {
+    handleClick = (drink) => {
+        console.log(drink.strDrink);
+        fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drink.idDrink}`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Max-Age': 600
             }
         }) // closes fetch call
             .then(response => this.handleHTTPErrors(response))
             // .then(result => result.json())
             .then(result => {
-                // console.log(result);
+                console.log(result);
                 this.setState({
-                    showForm: false
+                    showForm: true
                 });
+                // console.log("strDrink value = " + drink.strDrink);
+                // console.log("strCategory value = " + drink.strCategory);
+                // console.log("strIngredient value = " + drink.strIngredient1);
+                // console.log("randomD.strDrink value = " + this.state.randomD[0].strDrink);
             })
             .catch(error => {
                 console.log(error);
@@ -101,180 +163,72 @@ class FavCocktailsForm extends Component {
             <Tabs onSelect={index => console.log(index)}>
                 <TabList>
                 <Tab>Home</Tab>
-                <Tab>Search Cocktail by Name</Tab>
+                <Tab>Search Drinks by Name</Tab>
                 <Tab>Filter Drinks by Category</Tab>
                 <Tab>Filter Drinks by Ingredient</Tab>
-                <Tab>Search for an Ingredient</Tab>
-                    </TabList>
+                </TabList>
             <TabPanel>
             <fieldset>
                 <h1>Make me a random drink!</h1>
                                 <label>
-                                    <input type='button' id='rButt' name='rButt' value='Click' style={buttStyle}
-                                        onChange={this.cChange} />
-                                    &nbsp;
+                                {  
+                                    this.state.randomD.map(drink =>
+                                            <input type='button' key={drink.idDrink} name={drink.strDrink} value='Click Me!'
+                                            onClick={() => this.handleClick(drink)} />
+                                        )
+                                }
                         </label>
             </fieldset>
             </TabPanel>
             <TabPanel>
             <fieldset>
-                            <form onSubmit={this.onSubmit}>
                                 <label>
                                     <input type='search' id='cocktailSearch' name='cocktailSearch' aria-label='Search for Cocktail Name'
                                         onChange={this.change} />
                                     &nbsp;<br />Drink Name
                         </label>
                                 <br /><br />
-                                <input type='submit' value='Submit' style={buttStyle} />
-                            </form>
-                        </fieldset>
+                                {  
+                                    this.state.drinks.map(drink =>
+                                            <input type='button' key={drink.idDrink} value={drink.strDrink}
+                                            onClick={() => this.handleClick(drink)} />
+                                        )
+                                }
+                </fieldset>
             </TabPanel>
             <TabPanel>
-            <div>
-                        <fieldset>
-                                <label>
-                                    <input type='button' id='oDButt' name='ordinaryDrink' value='Ordinary Drink'
-                                        onChange={this.cChange} />
-                                    &nbsp;
-                        </label>
-                        <label>
-                                <br /><br />
-                                    <input type='button' id='cButt' name='cocktail' value='Cocktail'
-                                        onChange={this.handleChecked} />
-                                    &nbsp;
-                        </label>
-                                <br /><br />
-                                <label>
-                                    <input type='button' id='sButt' name='shot' value='Shot'
-                                        onChange={this.handleChecked} />
-                                    &nbsp;
-                        </label>
-                                <br /><br />
-                                <label>
-                                    <input type='button' id='hLButt' name='homemadeLiqueur' value='Homemade Liqueur'
-                                        onChange={this.handleChecked} />
-                                    &nbsp;
-                        </label>
-                                <br /><br />
-                                <label>
-                                    <input type='button' id='bButt' name='beer' value='Beer'
-                                        onChange={this.handleChecked} />
-                                    &nbsp;
-                        </label>
-                                <br /><br />
-                        </fieldset>
-                        </div>
+                    <fieldset>
+                                {  
+                                    this.state.categories.map(drink =>
+                                            <input type='button' key={drink.strCategory} value={drink.strCategory}
+                                            onClick={() => this.handleClick(drink)} />
+                                        )
+                                }
+                    </fieldset>
             </TabPanel>
             <TabPanel>
+         
             <fieldset>
-                            <form>
-                                <label>
-                                    <input type='button' id='gin' name='ginButt' value={'Gin'}
-                                        onClick={this.cClick} />
-                                    &nbsp;
-                        </label>
-                                <br /><br />
-                                <label>
-                                    <input type='button' id='vodka' name='vodkaButt' value='Vodka'
-                                        onClick={this.cClick} />
-                                    &nbsp;
-                        </label>
-                                <br /><br />
-                                <label>
-                                    <input type='button' id='bourbon' name='bourbonButt' value='Bourbon'
-                                        onClick={this.cClick} />
-                                    &nbsp;
-                        </label>
-                                <br /><br />
-                                <label>
-                                    <input type='button' id='rum' name='rumButt' value='Rum'
-                                        onClick={this.cClick} />
-                                    &nbsp;
-                        </label>
-                                <br /><br />
-                                <label>
-                                    <input type='button' id='whiskey' name='whiskeyButt' value='Whiskey'
-                                        onClick={this.cClick} />
-                                    &nbsp;
-                        </label>
-                                <br /><br />
-                            </form>
-                        </fieldset>
-            </TabPanel>
-            <TabPanel>
-            <fieldset>
-                            <form onSubmit={this.onSubmit}>
-                                <label>
+                           
+                            <label>
                                     <input type='search' id='ingredientSearch' name='ingredientSearch' aria-label='Search for Ingredient'
-                                        onChange={this.cChange} />
+                                        onChange={this.handleChange} />
                                     &nbsp;<br />Ingredient Type
                         </label>
                                 <br /><br />
-                                <input type='submit' value='Submit' style={buttStyle} />
-                            </form>
+                                {  
+                                    this.state.ingredients.map(drink =>
+                                            <input type='button' key={drink.strIngredient1} value={drink.strIngredient1}
+                                            onClick={() => this.handleClick(drink)} />
+                                        )
+                                }
+                      
                         </fieldset>
             </TabPanel>
             </Tabs >
         );
         if (this.state.showForm) {
             return (
-
-                //     <h1 class="title">Tabs</h1>
-                //     <div class="tabContainer" style={tabStyle}>
-                //         <div class="buttonContainer" style={buttContainer}>
-                //             <button>Tab1</button>
-                //             <button>Tab2</button>
-                //             <button>Tab3</button>
-                //             <button>Tab4</button>
-                //         </div>
-                //         <div class="tabPanel1" style={buttContainer} onClick={this.handleTab}>Tab 1: content
-                //         <div style={favSitesFormStyle}>
-                //     <fieldset>
-                //         <form onSubmit={e => this.onSubmit(e)}>
-                //             <label>
-                //                 <input type='radio' id='radio1' name='cocktailRadio' value='Ordinary Drink'
-                //                 // checked={this.state.checkboxGroup[0]}
-                //                 onChange={e => this.cChange(e)} />
-                //                 &nbsp;Ordinary Drink
-                //             </label>
-                //             <br /><br />
-                //             <label>
-                //                 <input type='radio' id='radio2' name='cocktailRadio' value='Cocktail'
-                //                 // checked={this.state.checkboxGroup[1]}
-                //                 onChange={this.handleChecked} />
-                //                 &nbsp;Cocktail
-                //             </label>
-                //             <br /><br />
-                //             <label>
-                //                 <input type='radio' id='radio3' name='cocktailRadio' value='Shot'
-                //                 // checked={this.state.checkboxGroup[2]}
-                //                 onChange={this.handleChecked} />
-                //                 &nbsp;Shot
-                //             </label>
-                //             <br /><br />
-                //             <label>
-                //                 <input type='radio' id='radio4' name='cocktailRadio' value='Homemade Liqueur'
-                //                 // checked={this.state.checkboxGroup[3]}
-                //                 onChange={this.handleChecked} />
-                //                 &nbsp;Homemade Liqueur
-                //             </label>
-                //             <br /><br />
-                //             <label>
-                //                 <input type='radio' id='radio5' name='cocktailRadio' value='Beer'
-                //                 // checked={this.state.checkboxGroup[4]}
-                //                 onChange={this.handleChecked} />
-                //                 &nbsp;Beer
-                //             </label>
-                //             <br /><br />
-                //             <input type='submit' value='Submit' style={buttStyle} />
-                //         </form>
-                //     </fieldset>
-                // </div>
-                //         </div>
-                //         <div class="tabPanel2" style={buttContainer} onClick={e => this.handleTab(e)}>Tab 2: content</div>
-                //         <div class="tabPanel3" style={buttContainer} onClick={e => this.handleTab(e)}>Tab 3: content</div>
-                //         <div class="tabPanel4" style={buttContainer} onClick={e => this.handleTab(e)}>Tab 4: content</div>
-                //     </div>
                 <div>
                     {displayTabs}
                 </div>
