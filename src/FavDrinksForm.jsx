@@ -13,6 +13,11 @@ class FavDrinksForm extends Component {
             ingredients: [],
             randomD: [],
             selectDrink: [],
+            selectCats: [],
+            selectIngs: [],
+            showCats: true,
+            showCatsBack: false,
+            showIngs: true,
            search: ''
         };
         fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic')
@@ -52,6 +57,9 @@ class FavDrinksForm extends Component {
                 })
             });
         this.handleClick = this.handleClick.bind(this);
+        this.handleCatClick = this.handleCatClick.bind(this);
+        this.handleIngClick = this.handleIngClick.bind(this);
+        this.handleBackClick = this.handleBackClick.bind(this);
     }
     handleHTTPErrors(response) {
         if (!response.ok) throw Error(response.status +
@@ -73,8 +81,19 @@ class FavDrinksForm extends Component {
     handleCSearch = (drink) => {
 
     }
+    handleBackClick() {
+        !this.state.showCats ? this.setState({
+            showDrink: false,
+            showCats: true
+        })
+        ://previous page ingredients
+        this.setState({
+            showDrink: false,
+            showIngs: true
+        })
+    };
     handleClick = (drink) => {
-        console.log(drink.strDrink);
+        console.log("handleClick strDrink = " + drink.strDrink);
         fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drink.idDrink}`)
         .then(response => this.handleHTTPErrors(response))    
         .then(res => res.json())
@@ -89,19 +108,35 @@ class FavDrinksForm extends Component {
             });
     };
     handleCatClick = (drink) => {
-        console.log(drink.strDrink);
-        fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drink.idDrink}`)
+            console.log("handleCatClick strCategory = " + drink.strCategory);
+            fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${drink.strCategory}`)
+            .then(response => this.handleHTTPErrors(response))    
+            .then(res => res.json())
+                .then(json => {
+                    // console.log(json);
+                    this.setState({
+                        selectCats: json.drinks,
+                        showCats: false
+                    })
+                }).catch(error => {
+                    console.log(error);
+                });
+    };
+    handleIngClick = (drink) => {
+        console.log("handleIngClick ingredient1 = " + drink.strIngredient1);
+        fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${drink.strIngredient1}`)
         .then(response => this.handleHTTPErrors(response))    
         .then(res => res.json())
             .then(json => {
                 // console.log(json);
                 this.setState({
-                    Categories: json.drinks,
+                    selectIngs: json.drinks,
+                    showIngs: false
                 })
             }).catch(error => {
                 console.log(error);
             });
-    };
+};
     render() {
         // const buttStyle = {
         //     backgroundColor: '#4CAF50', /* Green */
@@ -112,15 +147,7 @@ class FavDrinksForm extends Component {
         //     textDecoration: 'none',
         //     fontSize: '14px'
         // }
-        const displayTabs = (
-            <Tabs onSelect={index => console.log(index)}>
-                <TabList>
-                <Tab>Home</Tab>
-                <Tab>Search Drinks by Name</Tab>
-                <Tab>Filter Drinks by Category</Tab>
-                <Tab>Filter Drinks by Ingredient</Tab>
-                </TabList>
-            <TabPanel>
+        const randomDrink = (
             <fieldset>
                 <h1>Make me a random drink!</h1>
                                 <label>
@@ -132,8 +159,8 @@ class FavDrinksForm extends Component {
                                 }
                         </label>
             </fieldset>
-            </TabPanel>
-            <TabPanel>
+        );
+        const allDrinks = (
             <fieldset>
                                 <label>
                                     <input type='search' id='cocktailSearch' name='cocktailSearch' aria-label='Search for Cocktail Name'
@@ -148,21 +175,23 @@ class FavDrinksForm extends Component {
                                         )
                                 }
                 </fieldset>
-            </TabPanel>
-            <TabPanel>
-                    <fieldset>
+        );
+        const drinkCategories = (
+            <fieldset>
                                 {  
-                                    this.state.categories.map(drink =>
+                                    this.state.showCats ? this.state.categories.map(drink =>
                                             <input type='button' key={drink.strCategory} value={drink.strCategory}
+                                            onClick={() => this.handleCatClick(drink)} />
+                                        )
+                                        : this.state.selectCats.map(drink =>
+                                            <input type='button' key={drink.idDrink} value={drink.strDrink}
                                             onClick={() => this.handleClick(drink)} />
                                         )
                                 }
-                    </fieldset>
-            </TabPanel>
-            <TabPanel>
-         
+            </fieldset>
+        );
+        const drinkIngredients = (
             <fieldset>
-                           
                             <label>
                                     <input type='search' id='ingredientSearch' name='ingredientSearch' aria-label='Search for Ingredient'
                                         onChange={this.handleChange} />
@@ -170,12 +199,49 @@ class FavDrinksForm extends Component {
                         </label>
                                 <br /><br />
                                 {  
-                                    this.state.ingredients.map(drink =>
+                                    this.state.showIngs ? this.state.ingredients.map(drink =>
                                             <input type='button' key={drink.strIngredient1} value={drink.strIngredient1}
-                                            onClick={() => this.handleClick(drink)} />
+                                            onClick={() => this.handleIngClick(drink)} />
                                         )
+                                        :
+                                    this.state.selectIngs.map(drink =>
+                                        <input type='button' key={drink.idDrink} value={drink.strDrink}
+                                        onClick={() => this.handleClick(drink)} /> 
+                                    )      
                                 }
                         </fieldset>
+        );
+        const showTheDrink = (
+            <div>
+            {
+                this.state.selectDrink.map(drink=>
+                <DRINK key={drink.idDrink} id={drink.idDrink} name={drink.strDrink} glass={drink.strGlass} alcoholic={drink.strAlcoholi}
+                instructions={drink.strInstructions} ing1={drink.strIngredient1} ing2={drink.strIngredient2} ing3={drink.strIngredient3}
+                ing4={drink.strIngredient4} ing5={drink.strIngredient5}>
+                </DRINK>
+                )
+            }
+            </div>
+        );
+        const displayTabs = (
+            <Tabs onSelect={index => console.log(index)}>
+                <TabList>
+                <Tab>Home</Tab>
+                <Tab>Search Drinks by Name</Tab>
+                <Tab>Filter Drinks by Category</Tab>
+                <Tab>Filter Drinks by Ingredient</Tab>
+                </TabList>
+            <TabPanel>
+                {randomDrink}
+            </TabPanel>
+            <TabPanel>
+                {allDrinks}
+            </TabPanel>
+            <TabPanel>
+                {drinkCategories}
+            </TabPanel>
+            <TabPanel>
+                {drinkIngredients}
             </TabPanel>
             </Tabs >
         );
@@ -186,18 +252,13 @@ class FavDrinksForm extends Component {
                 </div>
 
             ); // closes return
-        } else {
-            return(
-                <div>
-                        {
-                            this.state.selectDrink.map(drink=>
-                            <DRINK key={drink.idDrink} id={drink.idDrink} name={drink.strDrink} glass={drink.strGlass} alcoholic={drink.strAlcoholi}
-                            instructions={drink.strInstructions} ing1={drink.strIngredient1} ing2={drink.strIngredient2} ing3={drink.strIngredient3}
-                            ing4={drink.strIngredient4} ing5={drink.strIngredient5}>
-                            </DRINK>
-                            )
-                        }
-                </div>
+        } else{
+              return( 
+                  <div> 
+                       <button value='Back' name='Back'
+                        onClick={this.handleBackClick}></button>
+                    {showTheDrink}
+                    </div>
             );
         }
     } // closes render
