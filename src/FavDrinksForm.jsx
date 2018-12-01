@@ -7,6 +7,7 @@ class FavDrinksForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            tabIndex: 0,
             showDrink: false,
             drinks: [],
             categories: [],
@@ -60,6 +61,7 @@ class FavDrinksForm extends Component {
         this.handleCatClick = this.handleCatClick.bind(this);
         this.handleIngClick = this.handleIngClick.bind(this);
         this.handleBackClick = this.handleBackClick.bind(this);
+        this.handleIngCatBack = this.handleIngCatBack.bind(this);
     }
     handleHTTPErrors(response) {
         if (!response.ok) throw Error(response.status +
@@ -81,16 +83,45 @@ class FavDrinksForm extends Component {
     handleCSearch = (drink) => {
 
     }
+    handleIngCatBack(){
+        if(!this.state.showCats){
+                this.setState({
+                   showCats: true
+                })
+        }else{
+            this.setState({
+                showIngs: true
+            })
+        }
+    }
     handleBackClick() {
-        !this.state.showCats ? this.setState({
-            showDrink: false,
-            showCats: true
-        })
-        ://previous page ingredients
-        this.setState({
-            showDrink: false,
-            showIngs: true
-        })
+        if(this.state.tabIndex === 3){
+            this.setState({
+                showDrink: false,
+                showCats: true,
+                showIngs: false,
+                tabIndex: 3
+            })
+        }else if(this.state.tabIndex === 2){
+            this.setState({
+                showDrink: false,
+                showCats: false,
+                showIngs: true,
+                tabIndex: 2
+            })
+        }else if(this.state.tabIndex === 1){
+            this.setState({
+                showDrink: false,
+                showCats: true,
+                tabIndex: 1
+            })
+        }else{
+            this.setState({
+                showDrink: false,
+                showCats: true,
+                tabIndex: 0
+            })
+        }
     };
     handleClick = (drink) => {
         console.log("handleClick strDrink = " + drink.strDrink);
@@ -178,8 +209,17 @@ class FavDrinksForm extends Component {
         );
         const drinkCategories = (
             <fieldset>
+                                 {
+                                    !this.state.showCats ? 
+                                    <div>
+                                    <input type='button' value='Back' name='Back'
+                                    onClick={this.handleIngCatBack}></input>
+                                    </div>:
+                                    <div></div>
+                                }
                                 {  
-                                    this.state.showCats ? this.state.categories.map(drink =>
+                                    this.state.showCats ?
+                                    this.state.categories.map(drink =>
                                             <input type='button' key={drink.strCategory} value={drink.strCategory}
                                             onClick={() => this.handleCatClick(drink)} />
                                         )
@@ -192,12 +232,14 @@ class FavDrinksForm extends Component {
         );
         const drinkIngredients = (
             <fieldset>
-                            <label>
-                                    <input type='search' id='ingredientSearch' name='ingredientSearch' aria-label='Search for Ingredient'
-                                        onChange={this.handleChange} />
-                                    &nbsp;<br />Ingredient Type
-                        </label>
-                                <br /><br />
+                                {
+                                    !this.state.showIngs ? 
+                                    <div>
+                                    <input type='button' value='Back' name='Back'
+                                    onClick={this.handleIngCatBack}></input>
+                                    </div>:
+                                    <div></div>
+                                }
                                 {  
                                     this.state.showIngs ? this.state.ingredients.map(drink =>
                                             <input type='button' key={drink.strIngredient1} value={drink.strIngredient1}
@@ -224,7 +266,7 @@ class FavDrinksForm extends Component {
             </div>
         );
         const displayTabs = (
-            <Tabs onSelect={index => console.log(index)}>
+            <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
                 <TabList>
                 <Tab>Home</Tab>
                 <Tab>Search Drinks by Name</Tab>
@@ -250,14 +292,13 @@ class FavDrinksForm extends Component {
                 <div>
                     {displayTabs}
                 </div>
-
             ); // closes return
-        } else{
+        }else{
               return( 
                   <div> 
-                       <button value='Back' name='Back'
-                        onClick={this.handleBackClick}></button>
-                    {showTheDrink}
+                       <input type='button' value='Back' name='Back'
+                        onClick={this.handleBackClick}></input>
+                        {showTheDrink}
                     </div>
             );
         }
