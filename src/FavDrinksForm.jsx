@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css'
+import 'react-tabs/style/react-tabs.css';
 import DRINK from './DRINK';
 
 class FavDrinksForm extends Component {
@@ -19,6 +19,7 @@ class FavDrinksForm extends Component {
             showCats: true,
             showCatsBack: false,
             showIngs: true,
+            searching: false,
            search: ''
         };
         fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic')
@@ -67,21 +68,6 @@ class FavDrinksForm extends Component {
         if (!response.ok) throw Error(response.status +
             ': ' + response.statusText);
         return response;
-    }
-    // componentDidMount() {
-    //     fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic')
-    //     .then(response => this.handleHTTPErrors(response))    
-    //     .then(res => res.json())
-    //         .then(json => {
-    //             // console.log(json);
-    //             this.setState({
-    //                 drinks: json.drinks,
-    //                 alcTypes: json.drinks
-    //             })
-    //         });
-    // }
-    handleCSearch = (drink) => {
-
     }
     handleIngCatBack(){
         if(!this.state.showCats){
@@ -169,89 +155,101 @@ class FavDrinksForm extends Component {
             });
 };
     render() {
-        // const buttStyle = {
-        //     backgroundColor: '#4CAF50', /* Green */
-        //     border: 'none',
-        //     color: 'white',
-        //     padding: '10px 15px',
-        //     textAlign: 'center',
-        //     textDecoration: 'none',
-        //     fontSize: '14px'
-        // }
+        const imgStyle = {
+            maxWidth: '100%',
+            maxHeight: '90%',
+            position: 'relative',
+            background: 'gray',
+            display: 'inlineBlock',
+            textAlign: 'center',
+            verticalAlign: 'top'
+          }
+          const imgDiv = {
+              height: '245px',
+              width: '200px',
+              position: 'relative',
+              float: 'left',
+              borderRadius: '8px'
+          }
+          const spanStyle = {
+              display: 'block',
+              textAlign: 'center',
+              height: '45px',
+          }
         const randomDrink = (
             <fieldset>
                 <h1>Make me a random drink!</h1>
-                                <label>
-                                {  
-                                    this.state.randomD.map(drink =>
-                                            <input type='button' key={drink.idDrink} name={drink.strDrink} value='Click Me!'
-                                            onClick={() => this.handleClick(drink)} />
-                                        )
-                                }
-                        </label>
+                        {  
+                            this.state.randomD.map(drink =>
+                                    <input type='button' className='zoomRandom' key={drink.idDrink} name={drink.strDrink} value='Click Me!'
+                                    onClick={() => this.handleClick(drink)}></input>
+                                )
+                        }
             </fieldset>
         );
         const allDrinks = (
             <fieldset>
-                                <label>
-                                    <input type='search' id='cocktailSearch' name='cocktailSearch' aria-label='Search for Cocktail Name'
-                                        onChange={this.change} />
-                                    &nbsp;<br />Drink Name
-                        </label>
-                                <br /><br />
-                                {  
-                                    this.state.drinks.map(drink =>
-                                            <input type='button' key={drink.idDrink} value={drink.strDrink}
-                                            onClick={() => this.handleClick(drink)} />
-                                        )
-                                }
-                </fieldset>
+                {  
+                    this.state.drinks.map(drink =>
+                        <div key={drink.idDrink} className='zoom' style={imgDiv}>
+                        <img src={drink.strDrinkThumb} style={imgStyle} alt='' onClick={() => this.handleClick(drink)} />
+                        <span style={spanStyle} className='imgText'>{drink.strDrink}</span>
+                        </div> 
+                        )
+                }
+            </fieldset>
         );
         const drinkCategories = (
             <fieldset>
-                                 {
-                                    !this.state.showCats ? 
-                                    <div>
-                                    <input type='button' value='Back' name='Back'
-                                    onClick={this.handleIngCatBack}></input>
-                                    </div>:
-                                    <div></div>
-                                }
-                                {  
-                                    this.state.showCats ?
-                                    this.state.categories.map(drink =>
-                                            <input type='button' key={drink.strCategory} value={drink.strCategory}
-                                            onClick={() => this.handleCatClick(drink)} />
-                                        )
-                                        : this.state.selectCats.map(drink =>
-                                            <input type='button' key={drink.idDrink} value={drink.strDrink}
-                                            onClick={() => this.handleClick(drink)} />
-                                        )
-                                }
+                    {
+                    !this.state.showCats ? 
+                    <div>
+                    <input type='button' value='Back' name='Back'
+                    onClick={this.handleIngCatBack}></input>
+                    </div>:
+                    <div></div>
+                }
+                {  
+                    this.state.showCats ?
+                    this.state.categories.map(drink =>
+                            <input type='button' className='zoomIngsCats' key={drink.strCategory} value={drink.strCategory}
+                            onClick={() => this.handleCatClick(drink)} />
+                        )
+                        :
+                          
+                        this.state.selectCats.map(drink =>
+                            <div key={drink.idDrink} className='zoom' style={imgDiv}>
+                            <img src={drink.strDrinkThumb} style={imgStyle} alt='' onClick={() => this.handleClick(drink)} />
+                            <span style={spanStyle} className='imgText'>{drink.strDrink}</span>
+                            </div> 
+                            )
+                }
             </fieldset>
         );
         const drinkIngredients = (
             <fieldset>
-                                {
-                                    !this.state.showIngs ? 
-                                    <div>
-                                    <input type='button' value='Back' name='Back'
-                                    onClick={this.handleIngCatBack}></input>
-                                    </div>:
-                                    <div></div>
-                                }
-                                {  
-                                    this.state.showIngs ? this.state.ingredients.map(drink =>
-                                            <input type='button' key={drink.strIngredient1} value={drink.strIngredient1}
-                                            onClick={() => this.handleIngClick(drink)} />
-                                        )
-                                        :
-                                    this.state.selectIngs.map(drink =>
-                                        <input type='button' key={drink.idDrink} value={drink.strDrink}
-                                        onClick={() => this.handleClick(drink)} /> 
-                                    )      
-                                }
-                        </fieldset>
+                    {
+                        !this.state.showIngs ? 
+                        <div>
+                        <input type='button' value='Back' name='Back'
+                        onClick={this.handleIngCatBack}></input>
+                        </div>:
+                        <div></div>
+                    }
+                    {  
+                        this.state.showIngs ? this.state.ingredients.map(drink =>
+                                <input type='button' className='zoomIngsCats' key={drink.strIngredient1} value={drink.strIngredient1}
+                                onClick={() => this.handleIngClick(drink)} />
+                            )
+                            :
+                        this.state.selectIngs.map(drink =>
+                            <div key={drink.idDrink} className='zoom' style={imgDiv}>
+                            <img src={drink.strDrinkThumb} style={imgStyle} alt='' onClick={() => this.handleClick(drink)} />
+                            <span style={spanStyle} className='imgText'>{drink.strDrink}</span>
+                            </div> 
+                            )     
+                    }
+            </fieldset>
         );
         const showTheDrink = (
             <div>
@@ -273,16 +271,16 @@ class FavDrinksForm extends Component {
                 <Tab>Filter Drinks by Category</Tab>
                 <Tab>Filter Drinks by Ingredient</Tab>
                 </TabList>
-            <TabPanel>
+            <TabPanel className='blurryBar'>
                 {randomDrink}
             </TabPanel>
-            <TabPanel>
+            <TabPanel className='blurryBar'>
                 {allDrinks}
             </TabPanel>
-            <TabPanel>
+            <TabPanel className='blurryBar'>
                 {drinkCategories}
             </TabPanel>
-            <TabPanel>
+            <TabPanel className='blurryBar'>
                 {drinkIngredients}
             </TabPanel>
             </Tabs >
@@ -294,12 +292,12 @@ class FavDrinksForm extends Component {
                 </div>
             ); // closes return
         }else{
-              return( 
-                  <div> 
-                       <input type='button' value='Back' name='Back'
-                        onClick={this.handleBackClick}></input>
-                        {showTheDrink}
-                    </div>
+            return( 
+                <div> 
+                    <input type='button' value='Back' name='Back'
+                    onClick={this.handleBackClick}></input>
+                    {showTheDrink}
+                </div>
             );
         }
     } // closes render
