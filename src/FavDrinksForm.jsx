@@ -157,27 +157,31 @@ class FavDrinksForm extends Component {
     render() {
         const imgStyle = {
             maxWidth: '100%',
-            maxHeight: '90%',
+            maxHeight: '80%',
             position: 'relative',
             background: 'gray',
             display: 'inlineBlock',
             textAlign: 'center',
             verticalAlign: 'top'
           }
-          const imgDiv = {
-              height: '245px',
-              width: '200px',
-              position: 'relative',
-              float: 'left',
-              borderRadius: '8px'
-          }
           const spanStyle = {
               display: 'block',
               textAlign: 'center',
               height: '45px',
           }
+        const imageDiv = {
+            width: '100%',
+            height: '100vh',
+            marginLeft: 'auto',
+            marginRigt: 'auto'
+        }
+      const ingsCatsStyle = {
+        display: 'inLineBlock',
+        textAlign: 'center',
+        height: '70px',
+      }
         const randomDrink = (
-            <fieldset>
+            <div>
                 <h1>Make me a random drink!</h1>
                         {  
                             this.state.randomD.map(drink =>
@@ -185,71 +189,70 @@ class FavDrinksForm extends Component {
                                     onClick={() => this.handleClick(drink)}></input>
                                 )
                         }
-            </fieldset>
+            </div>
         );
         const allDrinks = (
-            <fieldset>
-                {  
+            <div>
+                { 
                     this.state.drinks.map(drink =>
-                        <div key={drink.idDrink} className='zoom' style={imgDiv}>
+                        <div key={drink.idDrink} className='zoom' >
                         <img src={drink.strDrinkThumb} style={imgStyle} alt='' onClick={() => this.handleClick(drink)} />
                         <span style={spanStyle} className='imgText'>{drink.strDrink}</span>
                         </div> 
                         )
                 }
-            </fieldset>
+            </div>
         );
         const drinkCategories = (
-            <fieldset>
+            <div>
                     {
                     !this.state.showCats ? 
                     <div>
                     <input type='button' value='Back' name='Back'
                     onClick={this.handleIngCatBack}></input>
                     </div>:
-                    <div></div>
+                    null
                 }
                 {  
                     this.state.showCats ?
                     this.state.categories.map(drink =>
-                            <input type='button' className='zoomIngsCats' key={drink.strCategory} value={drink.strCategory}
+                            <input style={ingsCatsStyle} type='button' className='zoomIngsCats' key={drink.strCategory} value={drink.strCategory}
                             onClick={() => this.handleCatClick(drink)} />
                         )
                         :
                           
                         this.state.selectCats.map(drink =>
-                            <div key={drink.idDrink} className='zoom' style={imgDiv}>
+                            <div key={drink.idDrink} className='zoom'>
                             <img src={drink.strDrinkThumb} style={imgStyle} alt='' onClick={() => this.handleClick(drink)} />
                             <span style={spanStyle} className='imgText'>{drink.strDrink}</span>
                             </div> 
                             )
                 }
-            </fieldset>
+            </div>
         );
         const drinkIngredients = (
-            <fieldset>
+            <div>
                     {
                         !this.state.showIngs ? 
-                        <div>
                         <input type='button' value='Back' name='Back'
                         onClick={this.handleIngCatBack}></input>
-                        </div>:
-                        <div></div>
+                        :
+                        null
                     }
                     {  
                         this.state.showIngs ? this.state.ingredients.map(drink =>
-                                <input type='button' className='zoomIngsCats' key={drink.strIngredient1} value={drink.strIngredient1}
+                                <input style={ingsCatsStyle} type='button' className='zoomIngsCats' key={drink.strIngredient1} value={drink.strIngredient1}
                                 onClick={() => this.handleIngClick(drink)} />
                             )
                             :
                         this.state.selectIngs.map(drink =>
-                            <div key={drink.idDrink} className='zoom' style={imgDiv}>
+                            <div key={drink.idDrink} className='zoom'>
                             <img src={drink.strDrinkThumb} style={imgStyle} alt='' onClick={() => this.handleClick(drink)} />
                             <span style={spanStyle} className='imgText'>{drink.strDrink}</span>
                             </div> 
                             )     
                     }
-            </fieldset>
+            </div>
         );
         const showTheDrink = (
             <div>
@@ -264,6 +267,7 @@ class FavDrinksForm extends Component {
             </div>
         );
         const displayTabs = (
+            <div style={imageDiv} className='blurryBar'>
             <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
                 <TabList>
                 <Tab>Home</Tab>
@@ -283,7 +287,8 @@ class FavDrinksForm extends Component {
             <TabPanel className='blurryBar'>
                 {drinkIngredients}
             </TabPanel>
-            </Tabs >
+            </Tabs>
+            </div>
         );
         if (!this.state.showDrink) {
             return (
