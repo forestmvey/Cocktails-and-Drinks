@@ -1,12 +1,19 @@
 import React from 'react';
+import favDrinks from './FavDrinksForm';
 
 const DRINK = (props) =>{
         return(
-    <p>
-        <li id={props.idDrink}>id : {props.id} name: {props.name} </li>
-        <li>Instructions: {props.instructions}</li>
-        <li>Ingredients: {props.ing1}, {props.ing2}, {props.ing3}, {props.ing4}</li> 
-    </p>
+        <div className='drinkRecipe'>
+        <img src={props.image} className='drink' alt='' />
+        <article> name: {props.name} </article>
+        <article>Ingredients</article>
+        <article>{props.ing1} - {props.measure1}</article>
+        <article> {props.ing2} - {props.measure2}</article>
+        <article>{props.ing3} - {props.measure3}</article>
+        <article>{props.ing4} - {props.measure4}</article> 
+        <article>Instructions</article>
+        <article> {props.instructions} </article>
+        </div>
         )}
 
 export default DRINK;

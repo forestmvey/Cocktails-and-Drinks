@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import DRINK from './DRINK';
+import background from './photos/barBackground.jpg';
 
 class FavDrinksForm extends Component {
     constructor(props) {
@@ -19,8 +20,6 @@ class FavDrinksForm extends Component {
             showCats: true,
             showCatsBack: false,
             showIngs: true,
-            searching: false,
-           search: ''
         };
         fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic')
         .then(response => this.handleHTTPErrors(response))    
@@ -162,7 +161,8 @@ class FavDrinksForm extends Component {
             background: 'gray',
             display: 'inlineBlock',
             textAlign: 'center',
-            verticalAlign: 'top'
+            verticalAlign: 'top',
+            width: '100%'
           }
           const spanStyle = {
               display: 'block',
@@ -171,21 +171,30 @@ class FavDrinksForm extends Component {
           }
         const imageDiv = {
             width: '100%',
-            height: '100vh',
-            marginLeft: 'auto',
-            marginRigt: 'auto'
+            height: '100%',
+            backgroundImage: 'url('+background+')',
+            border: 'none',
+            minHeight: '100vh',
+            backgroundRepeat: 'noRepeat',
+            backgroundSize: '100% 100%',
+            backgroundAttachment: 'fixed',
         }
       const ingsCatsStyle = {
         display: 'inLineBlock',
         textAlign: 'center',
         height: '70px',
       }
+      const tabStyle = {
+         textAlign: 'center'
+      }
         const randomDrink = (
             <div>
-                <h1>Make me a random drink!</h1>
+                <div>
+                <h1 className='title'>Forest Lounge</h1>
+                </div>        
                         {  
                             this.state.randomD.map(drink =>
-                                    <input type='button' className='zoomRandom' key={drink.idDrink} name={drink.strDrink} value='Click Me!'
+                                    <input type='button' className='zoomRandom' key={drink.idDrink} name={drink.strDrink} value='Make me a random drink'
                                     onClick={() => this.handleClick(drink)}></input>
                                 )
                         }
@@ -197,7 +206,7 @@ class FavDrinksForm extends Component {
                     this.state.drinks.map(drink =>
                         <div key={drink.idDrink} className='zoom' >
                         <img src={drink.strDrinkThumb} style={imgStyle} alt='' onClick={() => this.handleClick(drink)} />
-                        <span style={spanStyle} className='imgText'>{drink.strDrink}</span>
+                        <span style={spanStyle} value={drink} className='imgText'>{drink.strDrink}</span>
                         </div> 
                         )
                 }
@@ -208,7 +217,7 @@ class FavDrinksForm extends Component {
                     {
                     !this.state.showCats ? 
                     <div>
-                    <input type='button' value='Back' name='Back'
+                    <input type='button' className='button' value='Back' name='Back'
                     onClick={this.handleIngCatBack}></input>
                     </div>:
                     null
@@ -234,8 +243,10 @@ class FavDrinksForm extends Component {
             <div>
                     {
                         !this.state.showIngs ? 
-                        <input type='button' value='Back' name='Back'
+                        <div>
+                        <input type='button' className='button' value='Back' name='Back'
                         onClick={this.handleIngCatBack}></input>
+                        </div>
                         :
                         null
                     }
@@ -256,35 +267,40 @@ class FavDrinksForm extends Component {
         );
         const showTheDrink = (
             <div>
+                        <input type='button' className='drinkButton' value='Back' name='Back'
+                        onClick={this.handleBackClick}></input>
+                
             {
                 this.state.selectDrink.map(drink=>
                 <DRINK key={drink.idDrink} id={drink.idDrink} name={drink.strDrink} glass={drink.strGlass} alcoholic={drink.strAlcoholi}
                 instructions={drink.strInstructions} ing1={drink.strIngredient1} ing2={drink.strIngredient2} ing3={drink.strIngredient3}
-                ing4={drink.strIngredient4} ing5={drink.strIngredient5}>
+                ing4={drink.strIngredient4} ing5={drink.strIngredient5} measure1={drink.strMeasure1} measure2={drink.strMeasure3} 
+                measure1={drink.strMeasure4} measure1={drink.strMeasure5} image={drink.strDrinkThumb}>
                 </DRINK>
                 )
             }
             </div>
+            
         );
         const displayTabs = (
-            <div style={imageDiv} className='blurryBar'>
-            <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
+            <div style={imageDiv}>
+            <Tabs style={tabStyle} selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
                 <TabList>
                 <Tab>Home</Tab>
                 <Tab>Search Drinks by Name</Tab>
                 <Tab>Filter Drinks by Category</Tab>
                 <Tab>Filter Drinks by Ingredient</Tab>
                 </TabList>
-            <TabPanel className='blurryBar'>
+            <TabPanel>
                 {randomDrink}
             </TabPanel>
-            <TabPanel className='blurryBar'>
+            <TabPanel>
                 {allDrinks}
             </TabPanel>
-            <TabPanel className='blurryBar'>
+            <TabPanel>
                 {drinkCategories}
             </TabPanel>
-            <TabPanel className='blurryBar'>
+            <TabPanel>
                 {drinkIngredients}
             </TabPanel>
             </Tabs>
@@ -297,10 +313,8 @@ class FavDrinksForm extends Component {
                 </div>
             ); // closes return
         }else{
-            return( 
-                <div> 
-                    <input type='button' value='Back' name='Back'
-                    onClick={this.handleBackClick}></input>
+            return(
+                <div  style={imageDiv}> 
                     {showTheDrink}
                 </div>
             );

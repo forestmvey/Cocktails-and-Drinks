@@ -15,8 +15,8 @@ code {
 .zoom {
   background-color: #363636;
   transition: transform .2s; /* Animation */
-  width: 200px;
-  height: 220px;
+  width: 175px;
+  height: 200px;
   margin: 0 auto;
   margin-top: 30px;
   margin-left: 20px;
@@ -29,23 +29,19 @@ code {
   display: inline-block;
   text-align: center;
   vertical-align: top;
-  
+  color: #3c3c3c;
+  -webkit-transition: all 0.5s;
 }
 .zoom:hover {
   transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  text-shadow: 0 0 0 rgba(255,255,255,0.3), 0 0 0 rgba(255,255,255,0.3), 0 0 0 rgba(255,255,255,0.1), 0 0 0 rgba(255,255,255,0.1), 0 0 5px rgba(0,0,0,0.5);
+  font: 400 'Oleo Script', Helvetica, sans-serif;
 }
-.blurryBar {
-  background-image: url("./photos/barBackground.jpg");
-  border: none;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  background-attachment: fixed;
-  width: 100%;
-  height: 100%;
-}
+
 .imgText {
-  color: white;
+  color: white;  
+  font: 400 15px/1.3 'Oleo Script', Helvetica, sans-serif;
+  text-shadow: 4px 4px 0px rgba(0,0,0,0.1);
 }
 .zoomIngsCats {
   background-color: #363636;
@@ -68,24 +64,88 @@ code {
 }
 .zoomIngsCats:hover {
   transform: scale(1.1); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  color: #fff;
+  font: 400 'Oleo Script', Helvetica, sans-serif;
 }
 .zoomRandom {
-  background-color: #363636;
   transition: transform .2s; /* Animation */
-  width: 200px;
-  height: 200px;
+  width: 500px;
+  height: 100px;
   margin: 0 auto;
   margin-top: 30px;
+  margin-bottom: 30px;
   margin-left: 20px;
   max-width: 100%;
   max-height: 100%;
-  border: 5px solid #2c2c2c;
   position: relative;
   display: inline-block;
   text-align: center;
   vertical-align: top;
-  color: white;
+  background-color: transparent;
+  border: none;
+  font-size: 30px;
+  bottom: -100px;
+  color: #565D61;
+  -webkit-transition: all 0.5s;
 }
 .zoomRandom:hover {
   transform: scale(1.1); 
+  color: #fff;
+  text-shadow: 0 0 0 rgba(255,255,255,0.3), 0 0 0 rgba(255,255,255,0.3), 0 0 0 rgba(255,255,255,0.1), 0 0 0 rgba(255,255,255,0.1), 0 0 5px rgba(0,0,0,0.5);
+  font: 400 'Oleo Script', Helvetica, sans-serif;
+}
+.title {
+  font: 400 100px/1.3 'Berkshire Swash', Helvetica, sans-serif;
+  color: #2b2b2b;
+  bottom: 40px;
+  text-shadow: 1px 1px 0px #ededed, 4px 4px 0px rgba(0,0,0,0.15);
+}
+.button {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  font: 400 15px 'Oleo Script', Helvetica, sans-serif;
+  color: #fff;
+}
+.drinkButton {
+  margin-left: 50%;
+  margin-right: 50%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+  font: 400 15px 'Oleo Script', Helvetica, sans-serif;
+  color: #fff;
+}
+.drink {
+  height: 400px;
+  width: 350px;
+  align-content: center;
+}
+.drinkRecipe {
+  background-color: #363636;
+  width: 40%;
+  height: 100vh;
+  margin: 0 auto;
+  margin-top: 0;
+  margin-left: 30%;
+  margin-right: 30%;
+  max-width: 40%;
+  max-height: 100%;
+  border: 5px solid #2c2c2c;
+  position: relative;
+  border-radius: 8px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+  color: white;
+  font: 400 'Oleo Script', Helvetica, sans-serif;
+  background-attachment: fixed;
 }
