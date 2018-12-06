@@ -87,7 +87,7 @@ code {
   border: none;
   font-size: 30px;
   bottom: -100px;
-  color: #565D61;
+  color: rgb(165, 172, 175);
   -webkit-transition: all 0.5s;
   outline: none;
 }
@@ -152,4 +152,10 @@ code {
   color: white;
   font: 400 'Oleo Script', Helvetica, sans-serif;
   background-attachment: fixed;
+}
+
+.instructIngred {
+  font-weight: 700;
+  text-decoration: underline;
+  font-size: 18px;
 }

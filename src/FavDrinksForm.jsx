@@ -48,15 +48,15 @@ class FavDrinksForm extends Component {
                     ingredients: json.drinks
                 })
             });
-            fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/random.php')
-        .then(response => this.handleHTTPErrors(response))    
-        .then(res => res.json())
-            .then(json => {
-                // console.log(json);
-                this.setState({
-                    randomD: json.drinks
-                })
-            });
+                fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/random.php')
+                .then(response => this.handleHTTPErrors(response))    
+                .then(res => res.json())
+                    .then(json => {
+                        // console.log(json);
+                        this.setState({
+                            randomD: json.drinks
+                        })
+                    });
         this.handleClick = this.handleClick.bind(this);
         this.handleCatClick = this.handleCatClick.bind(this);
         this.handleIngClick = this.handleIngClick.bind(this);
@@ -116,6 +116,21 @@ class FavDrinksForm extends Component {
             .then(json => {
                 // console.log(json);
                 this.setState({
+                    selectDrink: json.drinks,
+                    showDrink: true
+                })
+            }).catch(error => {
+                console.log(error);
+            });
+    };
+    handleRandomDrink = () => {
+        fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/random.php')
+        .then(response => this.handleHTTPErrors(response))    
+        .then(res => res.json())
+            .then(json => {
+                // console.log(json);
+                this.setState({
+                    randomD: json.drinks,
                     selectDrink: json.drinks,
                     showDrink: true
                 })
@@ -195,7 +210,7 @@ class FavDrinksForm extends Component {
                         {  
                             this.state.randomD.map(drink =>
                                     <input type='button' className='zoomRandom' key={drink.idDrink} name={drink.strDrink} value='Make me a random drink'
-                                    onClick={() => this.handleClick(drink)}></input>
+                                    onClick={() => this.handleRandomDrink()}></input>
                                 )
                         }
             </div>
@@ -273,9 +288,13 @@ class FavDrinksForm extends Component {
             {
                 this.state.selectDrink.map(drink=>
                 <DRINK key={drink.idDrink} id={drink.idDrink} name={drink.strDrink} glass={drink.strGlass} alcoholic={drink.strAlcoholi}
-                instructions={drink.strInstructions} ing1={drink.strIngredient1} ing2={drink.strIngredient2} ing3={drink.strIngredient3}
-                ing4={drink.strIngredient4} ing5={drink.strIngredient5} measure1={drink.strMeasure1} measure2={drink.strMeasure3} 
-                measure1={drink.strMeasure4} measure1={drink.strMeasure5} image={drink.strDrinkThumb}>
+                instructions={drink.strInstructions} image={drink.strDrinkThumb} 
+                ing1={drink.strIngredient1} measure1={drink.strMeasure1}
+                ing2={drink.strIngredient2} measure2={drink.strMeasure2}
+                ing3={drink.strIngredient3} measure3={drink.strMeasure3}
+                ing4={drink.strIngredient4} measure4={drink.strMeasure4}
+                ing5={drink.strIngredient5} measure5={drink.strMeasure5}  
+                >
                 </DRINK>
                 )
             }
