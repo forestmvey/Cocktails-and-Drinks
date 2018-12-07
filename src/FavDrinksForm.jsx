@@ -22,8 +22,8 @@ class FavDrinksForm extends Component {
             showIngs: true,
         };
         fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic')
-        .then(response => this.handleHTTPErrors(response))    
-        .then(res => res.json())
+            .then(response => this.handleHTTPErrors(response))
+            .then(res => res.json())
             .then(json => {
                 // console.log(json);
                 this.setState({
@@ -31,32 +31,32 @@ class FavDrinksForm extends Component {
                 })
             });
         fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list')
-        .then(response => this.handleHTTPErrors(response))    
-        .then(res => res.json())
+            .then(response => this.handleHTTPErrors(response))
+            .then(res => res.json())
             .then(json => {
                 // console.log(json);
                 this.setState({
-                   categories: json.drinks
+                    categories: json.drinks
                 })
             });
         fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list')
-        .then(response => this.handleHTTPErrors(response))    
-        .then(res => res.json())
+            .then(response => this.handleHTTPErrors(response))
+            .then(res => res.json())
             .then(json => {
                 // console.log(json);
                 this.setState({
                     ingredients: json.drinks
                 })
             });
-                fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/random.php')
-                .then(response => this.handleHTTPErrors(response))    
-                .then(res => res.json())
-                    .then(json => {
-                        // console.log(json);
-                        this.setState({
-                            randomD: json.drinks
-                        })
-                    });
+        fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/random.php')
+            .then(response => this.handleHTTPErrors(response))
+            .then(res => res.json())
+            .then(json => {
+                // console.log(json);
+                this.setState({
+                    randomD: json.drinks
+                })
+            });
         this.handleClick = this.handleClick.bind(this);
         this.handleCatClick = this.handleCatClick.bind(this);
         this.handleIngClick = this.handleIngClick.bind(this);
@@ -68,39 +68,39 @@ class FavDrinksForm extends Component {
             ': ' + response.statusText);
         return response;
     }
-    handleIngCatBack(){
-        if(!this.state.showCats){
-                this.setState({
-                   showCats: true
-                })
-        }else{
+    handleIngCatBack() {
+        if (!this.state.showCats) { 
+            this.setState({
+                showCats: true
+            })
+        } else {
             this.setState({
                 showIngs: true
             })
         }
     }
     handleBackClick() {
-        if(this.state.tabIndex === 3){
+        if (this.state.tabIndex === 3) {
             this.setState({
                 showDrink: false,
                 showCats: true,
                 showIngs: false,
                 tabIndex: 3
             })
-        }else if(this.state.tabIndex === 2){
+        } else if (this.state.tabIndex === 2) {
             this.setState({
                 showDrink: false,
                 showCats: false,
                 showIngs: true,
                 tabIndex: 2
             })
-        }else if(this.state.tabIndex === 1){
+        } else if (this.state.tabIndex === 1) {
             this.setState({
                 showDrink: false,
                 showCats: true,
                 tabIndex: 1
             })
-        }else{
+        } else {
             this.setState({
                 showDrink: false,
                 showCats: true,
@@ -111,8 +111,8 @@ class FavDrinksForm extends Component {
     handleClick = (drink) => {
         console.log("handleClick strDrink = " + drink.strDrink);
         fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drink.idDrink}`)
-        .then(response => this.handleHTTPErrors(response))    
-        .then(res => res.json())
+            .then(response => this.handleHTTPErrors(response))
+            .then(res => res.json())
             .then(json => {
                 // console.log(json);
                 this.setState({
@@ -125,8 +125,8 @@ class FavDrinksForm extends Component {
     };
     handleRandomDrink = () => {
         fetch('http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/random.php')
-        .then(response => this.handleHTTPErrors(response))    
-        .then(res => res.json())
+            .then(response => this.handleHTTPErrors(response))
+            .then(res => res.json())
             .then(json => {
                 // console.log(json);
                 this.setState({
@@ -139,25 +139,25 @@ class FavDrinksForm extends Component {
             });
     };
     handleCatClick = (drink) => {
-            console.log("handleCatClick strCategory = " + drink.strCategory);
-            fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${drink.strCategory}`)
-            .then(response => this.handleHTTPErrors(response))    
+        console.log("handleCatClick strCategory = " + drink.strCategory);
+        fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${drink.strCategory}`)
+            .then(response => this.handleHTTPErrors(response))
             .then(res => res.json())
-                .then(json => {
-                    // console.log(json);
-                    this.setState({
-                        selectCats: json.drinks,
-                        showCats: false
-                    })
-                }).catch(error => {
-                    console.log(error);
-                });
+            .then(json => {
+                // console.log(json);
+                this.setState({
+                    selectCats: json.drinks,
+                    showCats: false
+                })
+            }).catch(error => {
+                console.log(error);
+            });
     };
     handleIngClick = (drink) => {
         console.log("handleIngClick ingredient1 = " + drink.strIngredient1);
         fetch(`http://cors-anywhere.deploy.cs.camosun.bc.ca/https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${drink.strIngredient1}`)
-        .then(response => this.handleHTTPErrors(response))    
-        .then(res => res.json())
+            .then(response => this.handleHTTPErrors(response))
+            .then(res => res.json())
             .then(json => {
                 // console.log(json);
                 this.setState({
@@ -167,7 +167,7 @@ class FavDrinksForm extends Component {
             }).catch(error => {
                 console.log(error);
             });
-};
+    };
     render() {
         const imgStyle = {
             maxWidth: '100%',
@@ -178,151 +178,153 @@ class FavDrinksForm extends Component {
             textAlign: 'center',
             verticalAlign: 'top',
             width: '100%'
-          }
-          const spanStyle = {
-              display: 'block',
-              textAlign: 'center',
-              height: '45px',
-          }
+        }
+        const spanStyle = {
+            display: 'block',
+            textAlign: 'center',
+            height: '45px',
+        }
         const imageDiv = {
             width: '100%',
             height: '100%',
-            backgroundImage: 'url('+background+')',
+            backgroundImage: 'url(' + background + ')',
             border: 'none',
             minHeight: '100vh',
+            minWidth: '100vh',
             backgroundRepeat: 'noRepeat',
             backgroundSize: '100% 100%',
             backgroundAttachment: 'fixed',
+            overflowX: 'hidden'
         }
-      const ingsCatsStyle = {
-        display: 'inLineBlock',
-        textAlign: 'center',
-        height: '70px',
-      }
-      const tabStyle = {
-         textAlign: 'center'
-      }
+        const ingsCatsStyle = {
+            display: 'inLineBlock',
+            textAlign: 'center',
+            height: '70px',
+        }
+        const tabStyle = {
+            textAlign: 'center'
+        }
         const randomDrink = (
             <div>
                 <div>
-                <h1 className='title'>Forest Lounge</h1>
-                </div>        
-                        {  
-                            this.state.randomD.map(drink =>
-                                    <input type='button' className='zoomRandom' key={drink.idDrink} name={drink.strDrink} value='Make me a random drink'
-                                    onClick={() => this.handleRandomDrink()}></input>
-                                )
-                        }
+                    <h1 className='title'>Forest Lounge</h1>
+                </div>
+                {
+                    this.state.randomD.map(drink =>
+                        <input type='button' className='zoomRandom' key={drink.idDrink} name={drink.strDrink} value='Make me a random drink'
+                            onClick={() => this.handleRandomDrink()}></input>
+                    )
+                }
             </div>
         );
         const allDrinks = (
             <div>
-                { 
+                {
                     this.state.drinks.map(drink =>
                         <div key={drink.idDrink} className='zoom' >
-                        <img src={drink.strDrinkThumb} style={imgStyle} alt='' onClick={() => this.handleClick(drink)} />
-                        <span style={spanStyle} value={drink} className='imgText'>{drink.strDrink}</span>
-                        </div> 
-                        )
+                            <img src={drink.strDrinkThumb} style={imgStyle} alt='' onClick={() => this.handleClick(drink)} />
+                            <span style={spanStyle} value={drink} className='imgText'>{drink.strDrink}</span>
+                        </div>
+                    )
                 }
             </div>
         );
         const drinkCategories = (
             <div>
-                    {
-                    !this.state.showCats ? 
-                    <div>
-                    <input type='button' className='button' value='Back' name='Back'
-                    onClick={this.handleIngCatBack}></input>
-                    </div>:
-                    null
+                {
+                    !this.state.showCats ?
+                        <div>
+                            <input type='button' className='button' value='Back' name='Back'
+                                onClick={this.handleIngCatBack}></input>
+                        </div> :
+                        null
                 }
-                {  
+                {
                     this.state.showCats ?
-                    this.state.categories.map(drink =>
+                        this.state.categories.map(drink =>
                             <input style={ingsCatsStyle} type='button' className='zoomIngsCats' key={drink.strCategory} value={drink.strCategory}
-                            onClick={() => this.handleCatClick(drink)} />
+                                onClick={() => this.handleCatClick(drink)} />
                         )
                         :
-                          
+
                         this.state.selectCats.map(drink =>
                             <div key={drink.idDrink} className='zoom'>
-                            <img src={drink.strDrinkThumb} style={imgStyle} alt='' onClick={() => this.handleClick(drink)} />
-                            <span style={spanStyle} className='imgText'>{drink.strDrink}</span>
-                            </div> 
-                            )
+                                <img src={drink.strDrinkThumb} style={imgStyle} alt='' onClick={() => this.handleClick(drink)} />
+                                <span style={spanStyle} className='imgText'>{drink.strDrink}</span>
+                            </div>
+                        )
                 }
             </div>
         );
         const drinkIngredients = (
             <div>
-                    {
-                        !this.state.showIngs ? 
+                {
+                    !this.state.showIngs ?
                         <div>
-                        <input type='button' className='button' value='Back' name='Back'
-                        onClick={this.handleIngCatBack}></input>
+                            <input type='button' className='button' value='Back' name='Back'
+                                onClick={this.handleIngCatBack}></input>
                         </div>
                         :
                         null
-                    }
-                    {  
-                        this.state.showIngs ? this.state.ingredients.map(drink =>
-                                <input style={ingsCatsStyle} type='button' className='zoomIngsCats' key={drink.strIngredient1} value={drink.strIngredient1}
-                                onClick={() => this.handleIngClick(drink)} />
-                            )
-                            :
+                }
+                {
+                    this.state.showIngs ? this.state.ingredients.map(drink =>
+                        <input style={ingsCatsStyle} type='button' className='zoomIngsCats' key={drink.strIngredient1} value={drink.strIngredient1}
+                            onClick={() => this.handleIngClick(drink)} />
+                    )
+                        :
                         this.state.selectIngs.map(drink =>
                             <div key={drink.idDrink} className='zoom'>
-                            <img src={drink.strDrinkThumb} style={imgStyle} alt='' onClick={() => this.handleClick(drink)} />
-                            <span style={spanStyle} className='imgText'>{drink.strDrink}</span>
-                            </div> 
-                            )     
-                    }
+                                <img src={drink.strDrinkThumb} style={imgStyle} alt='' onClick={() => this.handleClick(drink)} />
+                                <span style={spanStyle} className='imgText'>{drink.strDrink}</span>
+                            </div>
+                        )
+                }
             </div>
         );
         const showTheDrink = (
             <div>
-                        <input type='button' className='drinkButton' value='Back' name='Back'
-                        onClick={this.handleBackClick}></input>
-                
-            {
-                this.state.selectDrink.map(drink=>
-                <DRINK key={drink.idDrink} id={drink.idDrink} name={drink.strDrink} glass={drink.strGlass} alcoholic={drink.strAlcoholi}
-                instructions={drink.strInstructions} image={drink.strDrinkThumb} 
-                ing1={drink.strIngredient1} measure1={drink.strMeasure1}
-                ing2={drink.strIngredient2} measure2={drink.strMeasure2}
-                ing3={drink.strIngredient3} measure3={drink.strMeasure3}
-                ing4={drink.strIngredient4} measure4={drink.strMeasure4}
-                ing5={drink.strIngredient5} measure5={drink.strMeasure5}  
-                >
-                </DRINK>
-                )
-            }
+                <input type='button' className='drinkButton' value='Back' name='Back'
+                    onClick={this.handleBackClick}></input>
+
+                {
+                    this.state.selectDrink.map(drink =>
+                        <DRINK key={drink.idDrink} id={drink.idDrink} name={drink.strDrink} glass={drink.strGlass} alcoholic={drink.strAlcoholi}
+                            instructions={drink.strInstructions} image={drink.strDrinkThumb}
+                            ing1={drink.strIngredient1} measure1={drink.strMeasure1}
+                            ing2={drink.strIngredient2} measure2={drink.strMeasure2}
+                            ing3={drink.strIngredient3} measure3={drink.strMeasure3}
+                            ing4={drink.strIngredient4} measure4={drink.strMeasure4}
+                            ing5={drink.strIngredient5} measure5={drink.strMeasure5}
+                        >
+                        </DRINK>
+                    )
+                }
             </div>
-            
+
         );
         const displayTabs = (
             <div style={imageDiv}>
-            <Tabs style={tabStyle} selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
-                <TabList>
-                <Tab>Home</Tab>
-                <Tab>Search Drinks by Name</Tab>
-                <Tab>Filter Drinks by Category</Tab>
-                <Tab>Filter Drinks by Ingredient</Tab>
-                </TabList>
-            <TabPanel>
-                {randomDrink}
-            </TabPanel>
-            <TabPanel>
-                {allDrinks}
-            </TabPanel>
-            <TabPanel>
-                {drinkCategories}
-            </TabPanel>
-            <TabPanel>
-                {drinkIngredients}
-            </TabPanel>
-            </Tabs>
+                <Tabs style={tabStyle} selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
+                    <TabList>
+                        <Tab>Home</Tab>
+                        <Tab>Search Drinks by Name</Tab>
+                        <Tab>Filter Drinks by Category</Tab>
+                        <Tab>Filter Drinks by Ingredient</Tab>
+                    </TabList>
+                    <TabPanel>
+                        {randomDrink}
+                    </TabPanel>
+                    <TabPanel>
+                        {allDrinks}
+                    </TabPanel>
+                    <TabPanel>
+                        {drinkCategories}
+                    </TabPanel>
+                    <TabPanel>
+                        {drinkIngredients}
+                    </TabPanel>
+                </Tabs>
             </div>
         );
         if (!this.state.showDrink) {
@@ -331,9 +333,9 @@ class FavDrinksForm extends Component {
                     {displayTabs}
                 </div>
             ); // closes return
-        }else{
-            return(
-                <div  style={imageDiv}> 
+        } else {
+            return (
+                <div style={imageDiv}>
                     {showTheDrink}
                 </div>
             );
